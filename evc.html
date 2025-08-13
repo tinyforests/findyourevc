@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EVC Explorer — Tiny Forests</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./">Tiny Forests</a>
+    <nav class="nav">
+      <a href="./evc.html" aria-current="page">EVC Explorer</a>
+      <a href="./faq.html">FAQ</a>
+      <a href="./about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="toolbar card">
+      <div class="field">
+        <label for="bio">Bioregion</label>
+        <select id="bio"></select>
+      </div>
+      <div class="field">
+        <label for="evc">EVC</label>
+        <select id="evc"></select>
+      </div>
+      <button id="viewBtn">Load species</button>
+    </section>
+
+    <article id="evcPanel" class="card"></article>
+  </main>
+
+  <footer class="site-footer">
+    <small>© Tiny Forests • Species lists derived from Victorian Government EVC Bioregion Benchmarks (DSE/DEECA).</small>
+  </footer>
+
+  <script src="./app.js"></script>
+  <script>
+    (async function(){
+      const selects = await TF.populateSelectors('#bio', '#evc');
+
+      // Read query params
+      const params = new URLSearchParams(window.location.search);
+      const qpBio = params.get('bio');
+      const qpEvc = params.get('evc');
+      if(qpBio) selects.bio.value = qpBio;
+      if(qpEvc) selects.evc.value = qpEvc;
+
+      async function loadCurrent(){
+        const bio = selects.bio.value; const evcId = Number(selects.evc.value);
+        if(!bio || !evcId) return;
+        const data = await TF.getEVC(bio, evcId);
+        TF.renderEVC(data, '#evcPanel');
+        // Update URL for shareability
+        const url = new URL(window.location);
+        url.searchParams.set('bio', bio);
+        url.searchParams.set('evc', String(evcId));
+        window.history.replaceState({}, '', url);
+      }
+
+      document.getElementById('viewBtn').addEventListener('click', loadCurrent);
+      if(qpBio && qpEvc) loadCurrent();
+    })();
+  </script>
+</body>
+</html>
