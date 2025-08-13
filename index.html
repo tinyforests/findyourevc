@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tiny Forests — Find Your Ecological Garden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./">Tiny Forests</a>
+    <nav class="nav">
+      <a href="./evc.html">EVC Explorer</a>
+      <a href="./faq.html">FAQ</a>
+      <a href="./about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div class="hero-inner">
+      <h1>Find your Ecological Garden</h1>
+      <p class="lede">Browse Victorian EVC benchmark species by bioregion. Start with the Victorian Volcanic Plain (VVP) or add more bioregions later.</p>
+
+      <form id="quickForm" class="card">
+        <div class="field">
+          <label for="bio">Bioregion</label>
+          <select id="bio"></select>
+        </div>
+        <div class="field">
+          <label for="evc">EVC</label>
+          <select id="evc"></select>
+        </div>
+        <button type="submit">View species</button>
+      </form>
+      <p class="footnote">Data derived from Victorian Government EVC Bioregion Benchmarks (indicative “typical species”).</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <small>© Tiny Forests • Species lists derived from Victorian Government EVC Bioregion Benchmarks (DSE/DEECA).</small>
+  </footer>
+
+  <script src="./app.js"></script>
+  <script>
+    // Populate selects then redirect to evc.html on submit
+    (async function(){
+      const selects = await TF.populateSelectors('#bio', '#evc');
+      document.getElementById('quickForm').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const bio = selects.bio.value;
+        const evc = selects.evc.value;
+        if(bio && evc){
+          window.location.href = `./evc.html?bio=${encodeURIComponent(bio)}&evc=${encodeURIComponent(evc)}`;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
