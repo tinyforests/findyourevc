@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>CSV → EVC JSON (with layers)</title>
+<style>
+  body{font-family:system-ui,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 16px}
+  header{margin-bottom:16px}
+  .box{border:1px dashed #ccc;border-radius:12px;padding:24px;text-align:center}
+  input[type=file]{margin-top:12px}
+  .log{margin-top:16px;font-size:14px;white-space:pre-wrap;background:#f7f7f7;padding:12px;border-radius:8px}
+  button{padding:10px 14px;border-radius:10px;border:1px solid #ddd;cursor:pointer}
+</style>
+<header>
+  <h1>CSV → EVC JSON</h1>
+  <p>Load your <strong>evc_benchmarks.csv</strong> and download <strong>evc_benchmarks.json</strong> (grouped by layers).</p>
+</header>
+
+<div class="box">
+  <input id="file" type="file" accept=".csv" />
+  <div class="log" id="log">Waiting for CSV…</div>
+</div>
+
+<script>
+// Minimal CSV parser (handles quotes and commas)
+function parseCSV(text){
+  const rows=[]; let i=0, cur='', inQ=false, row=[];
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ cur+='"'; i+=2; continue; }
+      if(c==='"' ){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }else{
+      if(c===','){ row.push(cur); cur=''; i++; continue; }
+      if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; i++; continue; }
+      if(c==='"'){ inQ=true; i++; continue; }
+      if(c==='\r'){ i++; continue; }
+      cur+=c; i++; continue;
+    }
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+
+// Map LF codes → friendly label + layer bucket
+function lfInfo(code){
+  const map = {
+    // Trees (canopy)
+    LT:{label:'Large Tree', layer:'canopy'}, T:{label:'Tree', layer:'canopy'}, MT:{label:'Medium Tree', layer:'canopy'},
+    // Shrubs (midstorey)
+    MS:{label:'Medium Shrub', layer:'shrub'}, SS:{label:'Small Shrub', layer:'shrub'}, S:{label:'Shrub', layer:'shrub'},
+    // Climbers
+    SC:{label:'Shrubby Climber', layer:'climber'}, LC:{label:'Climber', layer:'climber'},
+    // Herbs & lilies (groundlayer)
+    LH:{label:'Large Herb', layer:'groundlayer'}, MH:{label:'Medium Herb', layer:'groundlayer'},
+    SH:{label:'Small Herb', layer:'groundlayer'}, LP:{label:'Lily', layer:'groundlayer'},
+    // Graminoids
+    GH:{label:'Graminoid Herb', layer:'grass-sedge'},
+    // Ferns, bryophytes
+    GF:{label:'Ground Fern', layer:'fern'}, BR:{label:'Bryophyte', layer:'groundlayer'},
+  };
+  return map[code] || {label: code, layer:'other'};
+}
+
+function buildJSON(rows){
+  const header = rows[0].map(h => h.trim());
+  const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
+  const required = ["bioregion_code","bioregion_name","evc_id","evc_name","description","life_form","scientific_name","common_name"];
+  for(const r of required){ if(!(r in idx)) throw new Error(`Missing column: ${r}`); }
+
+  const master = { bioregions: [] };
+  const bioByCode = new Map();
+
+  for(let r=1; r<rows.length; r++){
+    const row = rows[r]; if(!row || row.length===0) continue;
+    const bcode = row[idx.bioregion_code]?.trim(); if(!bcode) continue;
+    const bname = row[idx.bioregion_name]?.trim();
+    const evc_id = Number(row[idx.evc_id]);
+    const evc_name = row[idx.evc_name]?.trim();
+    const desc = row[idx.description]?.trim();
+    const life_form = row[idx.life_form]?.trim();
+    const scientific_name = row[idx.scientific_name]?.trim();
+    const common_name = row[idx.common_name]?.trim();
+
+    // bioregion
+    if(!bioByCode.has(bcode)){
+      const bio = { bioregion_code: bcode, bioregion_name: bname, evcs: [] };
+      master.bioregions.push(bio);
+      bioByCode.set(bcode, bio);
+    }
+    const bio = bioByCode.get(bcode);
+
+    // evc
+    let evc = bio.evcs.find(e => e.evc_id === evc_id);
+    if(!evc){
+      evc = {
+        evc_id, evc_name, description: desc,
+        species: [],
+        grouped: { canopy:[], shrub:[], climber:[], 'grass-sedge':[], fern:[], groundlayer:[], other:[] }
+      };
+      bio.evcs.push(evc);
+    }
+
+    // species
+    if(scientific_name){
+      const {label, layer} = lfInfo(life_form);
+      const item = { life_form, life_form_label: label, scientific_name, common_name };
+      evc.species.push(item);
+      evc.grouped[layer].push(item);
+    }
+  }
+
+  // Deduplicate species within each EVC (by life_form+scientific_name)
+  for(const bio of master.bioregions){
+    for(const evc of bio.evcs){
+      const seen = new Set();
+      evc.species = evc.species.filter(s=>{
+        const k = `${s.life_form}::${s.scientific_name}`;
+        if(seen.has(k)) return false; seen.add(k); return true;
+      });
+      for(const key of Object.keys(evc.grouped)){
+        const seen2 = new Set();
+        evc.grouped[key] = evc.grouped[key].filter(s=>{
+          const k = `${s.life_form}::${s.scientific_name}`;
+          if(seen2.has(k)) return false; seen2.add(k); return true;
+        });
+      }
+    }
+  }
+  return master;
+}
+
+const $log = document.getElementById('log');
+document.getElementById('file').addEventListener('change', async (e)=>{
+  const file = e.target.files?.[0]; if(!file) return;
+  $log.textContent = `Reading ${file.name}…`;
+  const text = await file.text();
+  const rows = parseCSV(text);
+  try{
+    const json = buildJSON(rows);
+    const blob = new Blob([JSON.stringify(json, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'evc_benchmarks.json';
+    a.click(); URL.revokeObjectURL(url);
+    $log.textContent = `Success ✓ Downloaded evc_benchmarks.json with ${json.bioregions.reduce((n,b)=>n+b.evcs.length,0)} EVCs.`;
+  }catch(err){
+    console.error(err);
+    $log.textContent = 'Error: ' + err.message;
+  }
+});
+</script>
+</html>
