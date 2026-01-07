@@ -1,62 +1,144 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tiny Forests — Find Your Ecological Garden</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVC Lookup Tool | Victoria</title>
+    <meta name="description" content="Identify the Ecological Vegetation Class for Victorian addresses using state spatial datasets.">
+    <meta property="og:title" content="EVC Lookup Tool | Victoria">
+    <meta property="og:description" content="Ecological Vegetation Class identification for Victoria.">
+    <meta property="og:url" content="https://findmyevc.com/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://findmyevc.com/">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#2d3c28">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="./">Tiny Forests</a>
-    <nav class="nav">
-      <a href="./evc.html">EVC Explorer</a>
-      <a href="./faq.html">FAQ</a>
-      <a href="./about.html">About</a>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="./" class="logo">EVC Lookup</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
-  </header>
 
-  <main class="hero">
-    <div class="hero-inner">
-      <h1>Find your Ecological Garden</h1>
-      <p class="lede">Browse Victorian EVC benchmark species by bioregion. Start with the Victorian Volcanic Plain (VVP) or add more bioregions later.</p>
-
-      <form id="quickForm" class="card">
-        <div class="field">
-          <label for="bio">Bioregion</label>
-          <select id="bio"></select>
+    <div class="nav-modal" id="navModal">
+        <div class="nav-modal-content">
+            <button class="nav-close" id="navClose">&times;</button>
+            <ul class="nav-links">
+                <li><a href="./">Lookup</a></li>
+                <li><a href="./about.html">About EVCs</a></li>
+                <li><a href="./contact.html">Information</a></li>
+            </ul>
         </div>
-        <div class="field">
-          <label for="evc">EVC</label>
-          <select id="evc"></select>
-        </div>
-        <button type="submit">View species</button>
-      </form>
-      <p class="footnote">Data derived from Victorian Government EVC Bioregion Benchmarks (indicative “typical species”).</p>
     </div>
-  </main>
 
-  <footer class="site-footer">
-    <small>© Tiny Forests • Species lists derived from Victorian Government EVC Bioregion Benchmarks (DSE/DEECA).</small>
-  </footer>
+    <main class="main-content">
+        <section class="hero">
+            <h1 class="hero-title">Ecological Vegetation Class Lookup</h1>
+            <p class="hero-subtitle">Identify the EVC classification for addresses in Victoria</p>
+        </section>
 
-  <script src="./app.js"></script>
-  <script>
-    // Populate selects then redirect to evc.html on submit
-    (async function(){
-      const selects = await TF.populateSelectors('#bio', '#evc');
-      document.getElementById('quickForm').addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const bio = selects.bio.value;
-        const evc = selects.evc.value;
-        if(bio && evc){
-          window.location.href = `./evc.html?bio=${encodeURIComponent(bio)}&evc=${encodeURIComponent(evc)}`;
-        }
-      });
-    })();
-  </script>
+        <section class="lookup-section">
+            <div class="step-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Enter Address</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Retrieve Data</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">View Classification</div>
+                </div>
+            </div>
+
+            <div class="lookup-container">
+                <div class="input-group">
+                    <label for="address">Victorian address</label>
+                    <div class="input-with-button">
+                        <input 
+                            type="text" 
+                            id="address" 
+                            placeholder="123 Main Street, Melbourne VIC"
+                            autocomplete="off"
+                        >
+                        <div class="autocomplete-results" id="autocompleteResults"></div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" id="searchBtn">Retrieve EVC Data</button>
+                    <button class="btn-secondary" id="locationBtn">
+                        <span class="location-icon">📍</span>
+                        Use current location
+                    </button>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>About this tool</strong></p>
+                    <p>Ecological Vegetation Classes are standardised vegetation classifications used in Victoria to describe native vegetation communities based on floristic composition, structure, and distribution patterns.</p>
+                    <a href="./about.html" class="link-learn-more">EVC framework overview →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>State Spatial Data</h3>
+                    <p>Data sourced from Victorian Government mapping datasets</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Address-Based Query</h3>
+                    <p>EVC classification retrieved via coordinate-based lookup</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>Reference Information</h3>
+                    <p>Bioregion and conservation status included where available</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div id="resultsContent">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="acknowledgement">We acknowledge the Traditional Custodians of the lands on which this data is mapped and pay our respects to Elders past, present, and emerging.</p>
+            <p class="footer-note">EVC classifications are derived from state-published spatial datasets and represent broad ecological patterns rather than site-specific assessments. For planning or compliance purposes, consult the relevant authority.</p>
+            <p class="footer-links">
+                <a href="./about.html">About</a>
+                <span>·</span>
+                <a href="./contact.html">Information</a>
+                <span>·</span>
+                <span class="credit">Tool by <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">Gardener & Son</a></span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <script src="./assets/config.js"></script>
+    <script src="./assets/app.js"></script>
+    <script src="./assets/evc-fetch.js"></script>
 </body>
 </html>
