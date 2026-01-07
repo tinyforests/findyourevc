@@ -1,34 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — Tiny Forests</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About EVCs | EVC Lookup</title>
+    <meta name="description" content="Information about Ecological Vegetation Classes in Victoria and the EVC framework.">
+    <link rel="canonical" href="https://findmyevc.com/about.html">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#2d3c28">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="./">Tiny Forests</a>
-    <nav class="nav">
-      <a href="./evc.html">EVC Explorer</a>
-      <a href="./faq.html">FAQ</a>
-      <a href="./about.html" aria-current="page">About</a>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="./" class="logo">EVC Lookup</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
-  </header>
 
-  <main class="content">
-    <article class="card">
-      <h1>About</h1>
-      <p>Tiny Forests helps homeowners and designers select locally indigenous species using Victorian EVC benchmarks. The goal is urban biodiversity, ecological function and beauty—scaled to courtyards, verges and backyards.</p>
-      <p>Benchmarks are published by the Victorian Government. This site presents them in an accessible format for design decisions.</p>
-    </article>
-  </main>
+    <div class="nav-modal" id="navModal">
+        <div class="nav-modal-content">
+            <button class="nav-close" id="navClose">&times;</button>
+            <ul class="nav-links">
+                <li><a href="./">Lookup</a></li>
+                <li><a href="./about.html">About EVCs</a></li>
+                <li><a href="./contact.html">Information</a></li>
+            </ul>
+        </div>
+    </div>
 
-  <footer class="site-footer">
-    <small>© Tiny Forests • Species lists derived from Victorian Government EVC Bioregion Benchmarks (DSE/DEECA).</small>
-  </footer>
+    <main class="main-content page-content">
+        <article class="content-article">
+            <h1>About Ecological Vegetation Classes</h1>
+            
+            <section class="content-section">
+                <h2>EVC Framework</h2>
+                <p>The Ecological Vegetation Class (EVC) framework is a standardised system used in Victoria to classify native vegetation. Each EVC represents a distinct vegetation community defined by its floristic composition (plant species present), vegetation structure, and environmental attributes.</p>
+                <p>The framework was developed to provide consistent terminology for vegetation mapping, assessment, and management across the state.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Classification Methodology</h2>
+                <p>EVCs are classified based on surveys of remnant vegetation, analysis of floristic patterns, and correlation with environmental factors including soil type, topography, rainfall, and biogeographic region.</p>
+                <p>The Victorian Government maintains authoritative EVC mapping datasets, updated as new survey data becomes available.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Spatial Data Limitations</h2>
+                <p>EVC boundaries in spatial datasets represent modelled distributions based on available information. Boundaries are not precise lines but represent transition zones where vegetation communities grade into one another.</p>
+                <p>Mapped EVCs indicate the pre-1750 vegetation community likely to have occurred at a location. Current vegetation may differ significantly due to historical clearing, modification, or regeneration.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Conservation Status</h2>
+                <p>EVCs are assigned conservation status classifications (e.g., endangered, vulnerable, depleted) based on the extent of remaining vegetation relative to pre-European distribution. These classifications inform planning controls and biodiversity policy.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Data Sources</h2>
+                <p>This tool queries the Victorian Government's Native Vegetation Information System (NV2005_EVCBCS layer) via the Open Data Platform. EVC names, bioregions, and conservation status are sourced directly from this dataset.</p>
+            </section>
+
+            <div class="cta-box">
+                <h3>EVC Lookup</h3>
+                <p>Enter an address to retrieve associated EVC classification data.</p>
+                <a href="./" class="btn-primary">Access Lookup Tool</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="acknowledgement">We acknowledge the Traditional Custodians of the lands on which this data is mapped and pay our respects to Elders past, present, and emerging.</p>
+            <p class="footer-note">EVC classifications are derived from state-published spatial datasets and represent broad ecological patterns rather than site-specific assessments. For planning or compliance purposes, consult the relevant authority.</p>
+            <p class="footer-links">
+                <a href="./about.html">About</a>
+                <span>·</span>
+                <a href="./contact.html">Information</a>
+                <span>·</span>
+                <span class="credit">Tool by <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">Gardener & Son</a></span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="./assets/app.js"></script>
 </body>
 </html>
