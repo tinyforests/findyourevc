@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showModal('<div class="loading-spinner"></div>');
 
-        var d = 0.02;
+        var d = 0.001;  // REDUCED: ~111 meters for precision
         var bbox = [
             lon - d,
             lat - d,
@@ -279,39 +279,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var point = turf.point([lon, lat]);
                 var matchedFeature = null;
+                var matchCount = 0;
 
+                // Log all features in bbox for debugging
+                console.log('=== All features in bbox ===');
                 for (var i = 0; i < data.features.length; i++) {
                     var f = data.features[i];
-                    if (f.geometry.type === 'Polygon' && 
-                        turf.booleanPointInPolygon(point, turf.polygon(f.geometry.coordinates))) {
-                        matchedFeature = f;
-                        console.log('Found exact Polygon match at index:', i);
-                        break;
-                    }
+                    console.log('Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc, 'Type:', f.geometry.type);
                 }
+                console.log('=== Checking for point matches ===');
 
-                if (!matchedFeature) {
-                    for (var i = 0; i < data.features.length; i++) {
-                        var f = data.features[i];
-                        if (f.geometry.type === 'MultiPolygon') {
-                            for (var j = 0; j < f.geometry.coordinates.length; j++) {
-                                if (turf.booleanPointInPolygon(point, turf.polygon(f.geometry.coordinates[j]))) {
+                // Check Polygons
+                for (var i = 0; i < data.features.length; i++) {
+                    var f = data.features[i];
+                    if (f.geometry.type === 'Polygon') {
+                        try {
+                            var contained = turf.booleanPointInPolygon(point, f);
+                            if (contained) {
+                                matchCount++;
+                                console.log('✓ MATCH #' + matchCount + ' - Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
+                                if (!matchedFeature) {
                                     matchedFeature = f;
-                                    console.log('Found MultiPolygon match at index:', i);
-                                    break;
                                 }
                             }
-                            if (matchedFeature) break;
+                        } catch (e) {
+                            console.log('Error checking polygon at index', i, e);
                         }
                     }
                 }
 
+                // Check MultiPolygons
                 if (!matchedFeature) {
-                    console.log('No exact match, using first feature');
-                    matchedFeature = data.features[0];
+                    for (var i = 0; i < data.features.length; i++) {
+                        var f = data.features[i];
+                        if (f.geometry.type === 'MultiPolygon') {
+                            try {
+                                var contained = turf.booleanPointInPolygon(point, f);
+                                if (contained) {
+                                    matchCount++;
+                                    console.log('✓ MATCH #' + matchCount + ' - Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
+                                    if (!matchedFeature) {
+                                        matchedFeature = f;
+                                    }
+                                }
+                            } catch (e) {
+                                console.log('Error checking MultiPolygon at index', i, e);
+                            }
+                        }
+                    }
                 }
 
-                console.log('Matched feature:', matchedFeature);
+                console.log('=== Total matches found: ' + matchCount + ' ===');
+
+                if (!matchedFeature) {
+                    console.log('⚠ No exact match found, using first feature as fallback');
+                    matchedFeature = data.features[0];
+                } else {
+                    console.log('✓ Using matched feature:', matchedFeature.properties.x_evcname, 'EVC', matchedFeature.properties.evc);
+                }
+
                 displayResults(matchedFeature, address);
 
                 var allSteps = document.querySelectorAll('.step');
