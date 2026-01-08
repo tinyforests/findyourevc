@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'For planning, compliance, or precise determination, verify via Nature Kit or consult a qualified ecologist.' +
             '</div>' +
             '<div class="result-actions">' +
-            '<a href="https://www.environment.vic.gov.au/biodiversity/nature-kit" target="_blank" rel="noopener" class="btn-verify">' +
+            '<a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="btn-verify">' +
             'Verify with Nature Kit →' +
             '</a>' +
             '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '" target="_blank" rel="noopener" class="btn-secondary-action">' +
