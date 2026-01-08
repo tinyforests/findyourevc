@@ -286,34 +286,46 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
                 }
                 console.log('=== Checking for matches ===');
+                console.log('Point coordinates:', lon, lat);
 
                 // Match using the EXACT working logic from findmyecologicalgarden.com
                 for (var i = 0; i < data.features.length; i++) {
                     var f = data.features[i];
                     if (f.geometry.type === 'Polygon') {
                         try {
+                            console.log('Checking Feature ' + i + ' (Polygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
+                            console.log('  Coordinates array length:', f.geometry.coordinates.length);
+                            console.log('  First ring points:', f.geometry.coordinates[0].length);
+                            
                             // Wrap geometry coordinates in turf.polygon - this is the key!
                             var poly = turf.polygon(f.geometry.coordinates);
-                            if (turf.booleanPointInPolygon(point, poly)) {
+                            var contained = turf.booleanPointInPolygon(point, poly);
+                            console.log('  Contains point?', contained);
+                            
+                            if (contained) {
                                 console.log('✓ MATCH - Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
                                 matchedFeature = f;
                                 break;
                             }
                         } catch (e) {
-                            console.log('Error checking polygon', i, e);
+                            console.log('  ERROR checking polygon', i, ':', e.message);
                         }
                     }
                 }
 
                 // Try MultiPolygons if no Polygon match
                 if (!matchedFeature) {
+                    console.log('=== No Polygon match, trying MultiPolygons ===');
                     for (var i = 0; i < data.features.length; i++) {
                         var f = data.features[i];
                         if (f.geometry.type === 'MultiPolygon') {
                             try {
+                                console.log('Checking Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
                                 for (var j = 0; j < f.geometry.coordinates.length; j++) {
                                     var poly = turf.polygon(f.geometry.coordinates[j]);
-                                    if (turf.booleanPointInPolygon(point, poly)) {
+                                    var contained = turf.booleanPointInPolygon(point, poly);
+                                    console.log('  Polygon ' + j + ' contains point?', contained);
+                                    if (contained) {
                                         console.log('✓ MATCH - Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
                                         matchedFeature = f;
                                         break;
@@ -321,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                                 if (matchedFeature) break;
                             } catch (e) {
-                                console.log('Error checking MultiPolygon', i, e);
+                                console.log('  ERROR checking MultiPolygon', i, ':', e.message);
                             }
                         }
                     }
