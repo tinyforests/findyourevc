@@ -236,6 +236,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function searchEVC(lat, lon, address) {
         console.log('Searching EVC for:', lat, lon, address);
         
+        // Store coordinates globally for reporting
+        window.currentLat = lat;
+        window.currentLon = lon;
+        
         var steps = document.querySelectorAll('.step');
         for (var i = 0; i < steps.length; i++) {
             if (i < 2) steps[i].classList.add('active');
@@ -380,6 +384,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var evcCode = props.evc || props.evc_no || props.EVC || '';
         var bioregion = props.bioregion || props.bioregion_name || props.BIOREGION || 'Not specified';
         var status = props.evc_bcs_desc || props.bcs_description || props.EVC_BCS_DESC || 'Status not available';
+        
+        // Store for reporting
+        window.currentResult = {
+            address: address,
+            lat: window.currentLat || 0,
+            lon: window.currentLon || 0,
+            evc: evcCode,
+            evcName: evcName,
+            bioregion: bioregion,
+            status: status
+        };
 
         var html = '<div class="result-header">' +
             '<h2>EVC ' + evcCode + ' — ' + evcName + '</h2>' +
@@ -396,16 +411,44 @@ document.addEventListener('DOMContentLoaded', function() {
             '</div>' +
             '</div>' +
             '<div class="result-disclaimer">' +
-            'This classification is derived from state vegetation mapping datasets and represents the modelled pre-1750 vegetation community. EVC boundaries represent transition zones between communities. For site-specific assessment or planning purposes, consult qualified professionals and relevant authorities.' +
+            'EVC classifications are derived from state spatial datasets and represent approximate pre-1750 vegetation patterns. Results may differ from Nature Kit or site assessments due to boundary gaps and data resolution.<br><br>' +
+            'For planning, compliance, or precise determination, verify via Nature Kit or consult a qualified ecologist.' +
             '</div>' +
-            '<div class="result-cta">' +
-            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '" target="_blank" rel="noopener">' +
+            '<div class="result-actions">' +
+            '<a href="https://www.environment.vic.gov.au/biodiversity/nature-kit" target="_blank" rel="noopener" class="btn-verify">' +
+            'Verify with Nature Kit →' +
+            '</a>' +
+            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '" target="_blank" rel="noopener" class="btn-secondary-action">' +
             'View indigenous plant species →' +
             '</a>' +
+            '<button onclick="reportMismatch()" class="btn-report">' +
+            'Report mismatch' +
+            '</button>' +
             '</div>';
 
         showModal(html);
     }
+
+    // Make reportMismatch globally accessible
+    window.reportMismatch = function() {
+        var result = window.currentResult;
+        if (!result) return;
+        
+        var subject = encodeURIComponent('EVC Lookup Mismatch Report');
+        var body = encodeURIComponent(
+            'Address: ' + result.address + '\n' +
+            'Coordinates: ' + result.lat + ', ' + result.lon + '\n' +
+            'Find My EVC Result: EVC ' + result.evc + ' — ' + result.evcName + '\n' +
+            'Bioregion: ' + result.bioregion + '\n' +
+            'Conservation Status: ' + result.status + '\n\n' +
+            'Nature Kit Result (please fill in):\n' +
+            'EVC Code: \n' +
+            'EVC Name: \n\n' +
+            'Additional notes:\n'
+        );
+        
+        window.location.href = 'mailto:hello@gardenerandson.com.au?subject=' + subject + '&body=' + body;
+    };
 
     function showModal(content) {
         if (!resultsModal) return;
