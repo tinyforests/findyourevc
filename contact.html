@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Information | EVC Lookup</title>
-    <meta name="description" content="Data sources and contact information for the EVC Lookup tool.">
-    <link rel="canonical" href="https://findmyevc.com/contact.html">
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#2d3c28">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <title>Contact — Find My EVC</title>
+    <meta name="description" content="Get in touch about EVC classifications and data sources.">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-container">
-            <a href="./" class="logo">EVC Lookup</a>
+            <a href="/" class="logo">Find My EVC</a>
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
                 <span></span>
@@ -27,69 +22,73 @@
 
     <div class="nav-modal" id="navModal">
         <div class="nav-modal-content">
-            <button class="nav-close" id="navClose">&times;</button>
+            <button class="nav-close" id="navClose" aria-label="Close menu">&times;</button>
             <ul class="nav-links">
-                <li><a href="./">Lookup</a></li>
-                <li><a href="./about.html">About EVCs</a></li>
-                <li><a href="./contact.html">Information</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/contact.html">Contact</a></li>
             </ul>
         </div>
-    </div>
+    </nav>
 
-    <main class="main-content page-content">
-        <article class="content-article">
-            <h1>Tool Information</h1>
-            
-            <section class="content-section">
-                <h2>Purpose</h2>
-                <p>This tool provides address-based lookup of Ecological Vegetation Class classifications for Victoria. It is intended as a reference resource for identifying pre-1750 vegetation communities associated with specific locations.</p>
-            </section>
+    <main class="main-content">
+        <div class="page-content">
+            <article class="content-article">
+                <h1>Contact</h1>
 
-            <section class="content-section">
-                <h2>Data Sources</h2>
-                <p><strong>EVC Data:</strong> Victorian Government Open Data Platform — Native Vegetation 2005 EVC Bioregional Conservation Status (NV2005_EVCBCS layer), accessed via Web Feature Service (WFS).</p>
-                <p><strong>Geocoding:</strong> OpenStreetMap Nominatim service for address coordinate resolution.</p>
-                <p><strong>Authority:</strong> EVC classifications and conservation status are maintained by the Department of Energy, Environment and Climate Action (DEECA).</p>
-            </section>
+                <div class="content-section">
+                    <h2>Data Sources</h2>
+                    <p>This tool uses open data from the Victorian Government's spatial data platform. EVC classifications are sourced from the Native Vegetation 2005 Ecological Vegetation Classes dataset.</p>
+                    <p>For authoritative EVC determinations, planning requirements, or site-specific assessments, refer to <a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="external-link">Nature Kit</a> or consult qualified environmental professionals.</p>
+                </div>
 
-            <section class="content-section">
-                <h2>Use Limitations</h2>
-                <p>This tool provides indicative information only. EVC classifications represent modelled pre-European vegetation distributions and do not constitute site assessments or planning determinations.</p>
-                <p>For statutory planning, environmental reporting, or compliance purposes, users should refer to authoritative sources including the Victorian Biodiversity Atlas and consult with qualified ecologists or relevant authorities.</p>
-            </section>
+                <div class="content-section">
+                    <h2>Reporting Issues</h2>
+                    <p>If you encounter discrepancies between this tool's results and Nature Kit, or if you have technical questions about the classification methodology, you can report them directly through the result interface using the "Report mismatch" button.</p>
+                </div>
 
-            <section class="content-section">
-                <h2>Technical Queries</h2>
-                <p>For questions regarding EVC classifications, mapping methodology, or conservation status, contact the Department of Energy, Environment and Climate Action (DEECA) or refer to the Victorian Biodiversity Atlas.</p>
-            </section>
+                <div class="content-section">
+                    <h2>Technical Queries</h2>
+                    <p>For questions about the tool's implementation, data processing methodology, or API integration, contact <a href="mailto:hello@gardenerandson.com.au" class="external-link">hello@gardenerandson.com.au</a></p>
+                </div>
 
-            <section class="content-section">
-                <h2>Tool Development</h2>
-                <p>This lookup tool was developed by <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">Gardener & Son</a> as a publicly accessible interface to state vegetation data.</p>
-            </section>
+                <div class="content-section">
+                    <h2>Appropriate Use</h2>
+                    <p>This tool is intended for:</p>
+                    <p>• Preliminary ecological research and education</p>
+                    <p>• Garden planning and indigenous plant selection</p>
+                    <p>• Understanding local ecological heritage</p>
+                    <p>This tool is not appropriate for:</p>
+                    <p>• Planning permit applications</p>
+                    <p>• Regulatory compliance determinations</p>
+                    <p>• Legal or contractual purposes</p>
+                    <p>• Site-specific ecological assessments</p>
+                </div>
 
-            <section class="content-section">
-                <h2>Related Resources</h2>
-                <p>Victorian Biodiversity Atlas: <a href="https://www.environment.vic.gov.au/biodiversity/victorian-biodiversity-atlas" target="_blank" rel="noopener">environment.vic.gov.au/biodiversity/victorian-biodiversity-atlas</a></p>
-                <p>DEECA Native Vegetation: <a href="https://www.environment.vic.gov.au/native-vegetation" target="_blank" rel="noopener">environment.vic.gov.au/native-vegetation</a></p>
-            </section>
-        </article>
+                <div class="cta-box">
+                    <h3>Ready to identify your EVC?</h3>
+                    <p>Enter your Victorian address to discover your local ecological vegetation community.</p>
+                    <a href="/" class="external-link">Search EVC →</a>
+                </div>
+            </article>
+        </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <p class="acknowledgement">We acknowledge the Traditional Custodians of the lands on which this data is mapped and pay our respects to Elders past, present, and emerging.</p>
-            <p class="footer-note">EVC classifications are derived from state-published spatial datasets and represent broad ecological patterns rather than site-specific assessments. For planning or compliance purposes, consult the relevant authority.</p>
-            <p class="footer-links">
-                <a href="./about.html">About</a>
+            <div class="acknowledgement">
+                We acknowledge the Traditional Owners of the lands on which we work and pay our respects to Elders past and present.
+            </div>
+            <div class="footer-links">
+                <a href="/">Home</a>
                 <span>·</span>
-                <a href="./contact.html">Information</a>
+                <a href="/contact.html">Contact</a>
                 <span>·</span>
-                <span class="credit">Tool by <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">Gardener & Son</a></span>
-            </p>
+                <a href="https://www.gardenerandson.com.au" target="_blank" rel="noopener">A Gardener &amp; Son Project</a>
+            </div>
         </div>
     </footer>
 
-    <script src="./assets/app.js"></script>
+    <script src="assets/app.js"></script>
 </body>
 </html>
