@@ -3,24 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find My EVC | Ecological Vegetation Class Lookup for Victoria</title>
-    <meta name="description" content="Find your Ecological Vegetation Class (EVC) in Victoria. Learn about native vegetation communities and get indigenous plant recommendations for your garden.">
-    <meta property="og:title" content="Find My EVC | Ecological Vegetation Class Lookup">
-    <meta property="og:description" content="Find your Ecological Vegetation Class (EVC) in Victoria. Learn about native vegetation communities.">
-    <meta property="og:url" content="https://findmyevc.com/">
-    <meta property="og:type" content="website">
-    <link rel="canonical" href="https://findmyevc.com/">
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#3d4535">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <title>Find My EVC — Ecological Vegetation Class Lookup</title>
+    <meta name="description" content="Identify the Ecological Vegetation Class (EVC) classification for addresses in Victoria.">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-container">
-            <a href="./" class="logo">Find My EVC</a>
+            <a href="/" class="logo">Find My EVC</a>
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
                 <span></span>
@@ -31,46 +22,45 @@
 
     <div class="nav-modal" id="navModal">
         <div class="nav-modal-content">
-            <button class="nav-close" id="navClose">&times;</button>
+            <button class="nav-close" id="navClose" aria-label="Close menu">&times;</button>
             <ul class="nav-links">
-                <li><a href="./">Home</a></li>
-                <li><a href="./about.html">About EVCs</a></li>
-                <li><a href="./contact.html">Contact</a></li>
-                <li><a href="https://www.findmyecologicalgarden.com/" target="_blank" rel="noopener">Find My Ecological Garden →</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/contact.html">Contact</a></li>
             </ul>
         </div>
     </div>
 
     <main class="main-content">
         <section class="hero">
-            <h1 class="hero-title">Find Your Ecological Vegetation Class</h1>
-            <p class="hero-subtitle">Discover the native vegetation community of your Victorian property</p>
+            <h1 class="hero-title">Ecological Vegetation Class Lookup</h1>
+            <p class="hero-subtitle">Identify the EVC classification for addresses in Victoria.</p>
         </section>
 
         <section class="lookup-section">
             <div class="step-indicator">
-                <div class="step active" data-step="1">
+                <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-label">Enter Address</div>
                 </div>
-                <div class="step" data-step="2">
+                <div class="step">
                     <div class="step-number">2</div>
-                    <div class="step-label">Find EVC</div>
+                    <div class="step-label">Search EVC</div>
                 </div>
-                <div class="step" data-step="3">
+                <div class="step">
                     <div class="step-number">3</div>
-                    <div class="step-label">View Results</div>
+                    <div class="step-label">View Result</div>
                 </div>
             </div>
 
             <div class="lookup-container">
                 <div class="input-group">
-                    <label for="address">Enter your Victorian address</label>
+                    <label for="address">Victorian Address</label>
                     <div class="input-with-button">
                         <input 
                             type="text" 
                             id="address" 
-                            placeholder="123 Main Street, Melbourne VIC"
+                            placeholder="e.g. 10 Smith Street, Melbourne"
                             autocomplete="off"
                         >
                         <div class="autocomplete-results" id="autocompleteResults"></div>
@@ -78,17 +68,16 @@
                 </div>
 
                 <div class="button-group">
-                    <button class="btn-primary" id="searchBtn">Find My EVC</button>
+                    <button class="btn-primary" id="searchBtn">Search EVC</button>
                     <button class="btn-secondary" id="locationBtn">
-                        <span class="location-icon">📍</span>
-                        Use my location
+                        <span class="material-icons" style="font-size: 1.25rem;">location_on</span>
+                        Use current location
                     </button>
                 </div>
 
                 <div class="info-box">
-                    <p><strong>What is an EVC?</strong></p>
-                    <p>An Ecological Vegetation Class describes the native vegetation community that would naturally occur at a location. Understanding your EVC helps you choose appropriate indigenous plants for ecological gardens.</p>
-                    <a href="./about.html" class="link-learn-more">Learn more about EVCs →</a>
+                    <p>This tool identifies Ecological Vegetation Classes based on Victorian Government spatial data. Results represent modelled pre-1750 vegetation communities.</p>
+                    <p><a href="/about.html" class="link-learn-more">Learn more about EVC classifications →</a></p>
                 </div>
             </div>
         </section>
@@ -96,19 +85,25 @@
         <section class="features">
             <div class="feature-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🌿</div>
-                    <h3>Ecological Accuracy</h3>
-                    <p>Uses official Victorian Government EVC mapping data</p>
+                    <div class="feature-icon">
+                        <span class="material-icons" style="font-size: 2.5rem; color: #666;">location_on</span>
+                    </div>
+                    <h3>Location-Based Identification</h3>
+                    <p>Enter any Victorian address or use your current location to identify the local EVC classification.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🗺️</div>
-                    <h3>Location-Based</h3>
-                    <p>Find the native vegetation community for your exact property</p>
+                    <div class="feature-icon">
+                        <span class="material-icons" style="font-size: 2.5rem; color: #666;">nature</span>
+                    </div>
+                    <h3>Garden Planning Resource</h3>
+                    <p>Discover indigenous plant species appropriate for your ecological vegetation community.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌱</div>
-                    <h3>Garden Planning</h3>
-                    <p>Get indigenous plant recommendations matched to your EVC</p>
+                    <div class="feature-icon">
+                        <span class="material-icons" style="font-size: 2.5rem; color: #666;">filter_center_focus</span>
+                    </div>
+                    <h3>Data-Driven Accuracy</h3>
+                    <p>Built on Victorian Government spatial datasets with transparent methodology and verification workflows.</p>
                 </div>
             </div>
         </section>
@@ -117,34 +112,31 @@
     <div class="modal" id="resultsModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose">&times;</button>
-            <div id="resultsContent">
-                <div class="loading-spinner"></div>
-            </div>
+            <div id="resultsContent"></div>
         </div>
-    </div>
-
-    <div class="gardener-badge">
-        <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">
-            <div class="badge-text">A Gardener & Son Project</div>
-        </a>
     </div>
 
     <footer class="footer">
         <div class="footer-content">
-            <p class="acknowledgement">We acknowledge the Traditional Custodians of the lands on which we work and pay our respects to Elders past, present, and emerging. This site uses ecological data to support the restoration of indigenous plant communities on Country.</p>
-            <p class="footer-links">
-                <a href="./about.html">About</a>
+            <div class="acknowledgement">
+                We acknowledge the Traditional Owners of the lands on which we work and pay our respects to Elders past and present. Ecological Vegetation Classes represent an interpretation of pre-colonial vegetation patterns and do not replace Indigenous knowledge systems.
+            </div>
+            <div class="footer-note">
+                EVC classifications are derived from state-published spatial datasets and represent broad ecological patterns rather than site-specific assessments.
+            </div>
+            <div class="footer-links">
+                <a href="/about.html">About</a>
                 <span>·</span>
-                <a href="./contact.html">Contact</a>
+                <a href="/contact.html">Contact</a>
                 <span>·</span>
-                <a href="https://www.gardenerandson.com.au/" target="_blank" rel="noopener">Gardener & Son</a>
-            </p>
+                <a href="https://www.gardenerandson.com.au" target="_blank" rel="noopener">A Gardener &amp; Son Project</a>
+            </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-    <script src="./assets/config.js"></script>
-    <script src="./assets/app.js"></script>
-    <script src="./assets/evc-fetch.js"></script>
+    <script src="assets/config.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/evc-fetch.js"></script>
 </body>
 </html>
