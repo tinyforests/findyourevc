@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showModal('<div class="loading-spinner"></div>');
 
-        var d = 0.01;
+        var d = 0.02;
         var bbox = [
             lon - d,
             lat - d,
@@ -280,70 +280,81 @@ document.addEventListener('DOMContentLoaded', function() {
                 var point = turf.point([lon, lat]);
                 var matchedFeature = null;
 
-                console.log('=== All features in bbox ===');
-                for (var i = 0; i < data.features.length; i++) {
-                    var f = data.features[i];
-                    console.log('Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
-                }
-                console.log('=== Checking for matches ===');
-                console.log('Point coordinates:', lon, lat);
+                console.log('=== Checking for point-in-polygon matches ===');
+                console.log('Point coordinates: [' + lon + ', ' + lat + ']');
 
-                // Match using the EXACT working logic from findmyecologicalgarden.com
+                // Check Polygons first
                 for (var i = 0; i < data.features.length; i++) {
                     var f = data.features[i];
                     if (f.geometry.type === 'Polygon') {
                         try {
-                            console.log('Checking Feature ' + i + ' (Polygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
-                            console.log('  Coordinates array length:', f.geometry.coordinates.length);
-                            console.log('  First ring points:', f.geometry.coordinates[0].length);
-                            
-                            // Wrap geometry coordinates in turf.polygon - this is the key!
                             var poly = turf.polygon(f.geometry.coordinates);
-                            var contained = turf.booleanPointInPolygon(point, poly);
-                            console.log('  Contains point?', contained);
-                            
-                            if (contained) {
-                                console.log('✓ MATCH - Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
+                            if (turf.booleanPointInPolygon(point, poly)) {
+                                console.log('✓ EXACT MATCH - Feature ' + i + ':', f.properties.x_evcname, 'EVC', f.properties.evc);
                                 matchedFeature = f;
                                 break;
                             }
                         } catch (e) {
-                            console.log('  ERROR checking polygon', i, ':', e.message);
+                            console.log('Error checking polygon', i, ':', e.message);
                         }
                     }
                 }
 
                 // Try MultiPolygons if no Polygon match
                 if (!matchedFeature) {
-                    console.log('=== No Polygon match, trying MultiPolygons ===');
                     for (var i = 0; i < data.features.length; i++) {
                         var f = data.features[i];
                         if (f.geometry.type === 'MultiPolygon') {
                             try {
-                                console.log('Checking Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
                                 for (var j = 0; j < f.geometry.coordinates.length; j++) {
                                     var poly = turf.polygon(f.geometry.coordinates[j]);
-                                    var contained = turf.booleanPointInPolygon(point, poly);
-                                    console.log('  Polygon ' + j + ' contains point?', contained);
-                                    if (contained) {
-                                        console.log('✓ MATCH - Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
+                                    if (turf.booleanPointInPolygon(point, poly)) {
+                                        console.log('✓ EXACT MATCH - Feature ' + i + ' (MultiPolygon):', f.properties.x_evcname, 'EVC', f.properties.evc);
                                         matchedFeature = f;
                                         break;
                                     }
                                 }
                                 if (matchedFeature) break;
                             } catch (e) {
-                                console.log('  ERROR checking MultiPolygon', i, ':', e.message);
+                                console.log('Error checking MultiPolygon', i, ':', e.message);
                             }
                         }
                     }
                 }
 
+                // If no exact match, find closest polygon
                 if (!matchedFeature) {
-                    console.log('⚠ No exact match, using first feature');
-                    matchedFeature = data.features[0];
-                } else {
-                    console.log('✓ Final match:', matchedFeature.properties.x_evcname, 'EVC', matchedFeature.properties.evc);
+                    console.log('⚠ No exact match found - finding closest polygon');
+                    var closestDist = Infinity;
+                    var closestFeature = null;
+
+                    for (var i = 0; i < data.features.length; i++) {
+                        var f = data.features[i];
+                        try {
+                            var featureGeom = f.geometry.type === 'Polygon' ? 
+                                turf.polygon(f.geometry.coordinates) : 
+                                turf.multiPolygon(f.geometry.coordinates);
+                            var dist = turf.distance(point, turf.centroid(featureGeom));
+                            
+                            console.log('  Feature ' + i + ' (' + f.properties.x_evcname + ' EVC ' + f.properties.evc + '): distance = ' + dist.toFixed(3) + ' km');
+                            
+                            if (dist < closestDist) {
+                                closestDist = dist;
+                                closestFeature = f;
+                            }
+                        } catch (e) {
+                            console.log('  Error calculating distance for feature', i, ':', e.message);
+                        }
+                    }
+
+                    if (closestFeature) {
+                        console.log('→ CLOSEST FEATURE (distance: ' + closestDist.toFixed(3) + ' km):', 
+                            closestFeature.properties.x_evcname, 'EVC', closestFeature.properties.evc);
+                        matchedFeature = closestFeature;
+                    } else {
+                        console.log('→ Fallback to first feature');
+                        matchedFeature = data.features[0];
+                    }
                 }
 
                 displayResults(matchedFeature, address);
