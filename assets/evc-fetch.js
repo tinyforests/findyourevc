@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '<a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="btn-verify">' +
             'Verify with Nature Kit →' +
             '</a>' +
-            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '&address=' + encodeURIComponent(address) + '&lat=' + (window.currentLat || '') + '&lng=' + (window.currentLon || '') + '" target="_blank" rel="noopener" class="btn-secondary-action">' +
+            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '&address=' + encodeURIComponent(address) + '&lat=' + (window.currentLat || '') + '&lng=' + (window.currentLon || '') + '&source=findmyevc" target="_blank" rel="noopener" class="btn-secondary-action">' +
             'View indigenous plant species →' +
             '</a>' +
             '<button onclick="reportMismatch()" class="btn-report">' +
