@@ -1,94 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact — Find My EVC</title>
-    <meta name="description" content="Get in touch about EVC classifications and data sources.">
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Find My EVC</title>
+  <meta name="description" content="Contact, data sources, and appropriate use for the Find My EVC lookup tool. From Gardener &amp; Son.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="canonical" href="https://findmyevc.com/contact.html">
+  <meta property="og:title" content="Contact — Find My EVC">
+  <meta property="og:description" content="Data sources, technical queries, and appropriate use.">
+  <meta property="og:url" content="https://findmyevc.com/contact.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="/" class="logo">Find My EVC</a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
+<div class="noise"></div>
+<div class="page">
 
-    <div class="nav-modal" id="navModal">
-        <div class="nav-modal-content">
-            <button class="nav-close" id="navClose" aria-label="Close menu">&times;</button>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </div>
+  <nav>
+    <div class="container nav-inner">
+      <a class="nav-logo" href="/">Find My <em>EVC</em></a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <button id="hamburger" aria-label="Open menu">☰</button>
     </div>
+  </nav>
 
-    <main class="main-content">
-        <div class="page-content">
-            <article class="content-article">
-                <h1>Contact</h1>
+  <div id="navModal">
+    <div class="nav-modal-content">
+      <button id="navClose" aria-label="Close menu">&times;</button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 
-                <div class="content-section">
-                    <h2>Data Sources</h2>
-                    <p>This tool uses open data from the Victorian Government's spatial data platform. EVC classifications are sourced from the Native Vegetation 2005 Ecological Vegetation Classes dataset.</p>
-                    <p>For authoritative EVC determinations, planning requirements, or site-specific assessments, refer to <a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="external-link">Nature Kit</a> or consult qualified environmental professionals.</p>
-                </div>
+  <section class="hero-small">
+    <div class="container">
+      <div class="eyebrow">Contact</div>
+      <h1>Contact.</h1>
+      <p class="hero-body">Data sources, technical queries, and appropriate use.</p>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Reporting Issues</h2>
-                    <p>If you encounter discrepancies between this tool's results and Nature Kit, or if you have technical questions about the classification methodology, you can report them directly through the result interface using the "Report mismatch" button.</p>
-                </div>
+  <section class="section-light">
+    <div class="container">
+      <h2>Data sources.</h2>
+      <div class="content-body">
+        <p>This tool uses open data from the Victorian Government's spatial data platform. EVC classifications are sourced from the Native Vegetation 2005 Ecological Vegetation Classes dataset.</p>
+        <p>For authoritative EVC determinations, planning requirements, or site-specific assessments, refer to <a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener noreferrer" class="link-external">Nature Kit</a> or consult qualified environmental professionals.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Technical Queries</h2>
-                    <p>For questions about the tool's implementation, data processing methodology, or API integration, contact <a href="mailto:hello@gardenerandson.com" class="external-link">hello@gardenerandson.com</a></p>
-                </div>
+  <section class="section-dark">
+    <div class="container">
+      <h2>Reporting issues.</h2>
+      <div class="content-body">
+        <p>If you encounter a discrepancy between this tool's result and Nature Kit, or have questions about the classification methodology, contact us at <a href="mailto:hello@gardenerandson.com" class="link-external">hello@gardenerandson.com</a>.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Appropriate Use</h2>
-                    <p>This tool is intended for:</p>
-                    <p>• Preliminary ecological research and education</p>
-                    <p>• Garden planning and indigenous plant selection</p>
-                    <p>• Understanding local ecological heritage</p>
-                    <p>This tool is not appropriate for:</p>
-                    <p>• Planning permit applications</p>
-                    <p>• Regulatory compliance determinations</p>
-                    <p>• Legal or contractual purposes</p>
-                    <p>• Site-specific ecological assessments</p>
-                </div>
+  <section class="section-light">
+    <div class="container">
+      <h2>Technical queries.</h2>
+      <div class="content-body">
+        <p>For questions about the tool's implementation, data processing methodology, or API integration, contact <a href="mailto:hello@gardenerandson.com" class="link-external">hello@gardenerandson.com</a>.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="cta-box">
-                    <h3>Ready to identify your EVC?</h3>
-                    <p>Enter your Victorian address to discover your local ecological vegetation community.</p>
-                    <a href="/" class="external-link">Search EVC →</a>
-                </div>
-            </article>
+  <section class="section-beige-deep">
+    <div class="container">
+      <h2>Appropriate use.</h2>
+      <div class="use-lists">
+        <div class="use-list-group">
+          <h3>This tool is intended for</h3>
+          <ul class="use-list">
+            <li>Preliminary ecological research and education</li>
+            <li>Garden planning and indigenous plant selection</li>
+            <li>Understanding local ecological heritage</li>
+          </ul>
         </div>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="acknowledgement">
-                We acknowledge the Traditional Owners of the lands on which we work and pay our respects to Elders past and present.
-            </div>
-            <div class="footer-links">
-                <a href="/about.html">About</a>
-                <span>·</span>
-                <a href="/contact.html">Contact</a>
-                <span>·</span>
-                <a href="https://www.gardenerandson.com" target="_blank" rel="noopener">A Gardener &amp; Son Project</a>
-            </div>
+        <div class="use-list-group">
+          <h3>This tool is not appropriate for</h3>
+          <ul class="use-list">
+            <li>Planning permit applications</li>
+            <li>Regulatory compliance determinations</li>
+            <li>Legal or contractual purposes</li>
+            <li>Site-specific ecological assessments</li>
+          </ul>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <script src="assets/app.js"></script>
+  <section class="section-cta">
+    <div class="container">
+      <div class="cta-inner">
+        <div>
+          <h2>Ready to identify your EVC?</h2>
+          <p>Enter your Victorian address to discover your local ecological vegetation community.</p>
+        </div>
+        <a href="/" class="btn-cta">Search EVC →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-brand">Find My EVC</span>
+      <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="https://www.gardenerandson.com" target="_blank" rel="noopener noreferrer">A Gardener &amp; Son project</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /.page -->
+
+<script src="assets/app.js"></script>
 </body>
 </html>
