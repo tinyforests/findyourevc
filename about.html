@@ -1,103 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — Find My EVC</title>
-    <meta name="description" content="Learn about Ecological Vegetation Classes and how this tool works.">
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About EVCs — Find My EVC</title>
+  <meta name="description" content="What is an Ecological Vegetation Class? Learn about EVCs, the methodology behind the lookup tool, data sources, and the tool's limitations. From Gardener &amp; Son.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="canonical" href="https://findmyevc.com/about.html">
+  <meta property="og:title" content="About Ecological Vegetation Classes">
+  <meta property="og:description" content="What is an EVC and how does this tool identify yours?">
+  <meta property="og:url" content="https://findmyevc.com/about.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="/" class="logo">Find My EVC</a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
+<div class="noise"></div>
+<div class="page">
 
-    <div class="nav-modal" id="navModal">
-        <div class="nav-modal-content">
-            <button class="nav-close" id="navClose" aria-label="Close menu">&times;</button>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </div>
+  <nav>
+    <div class="container nav-inner">
+      <a class="nav-logo" href="/">Find My <em>EVC</em></a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <button id="hamburger" aria-label="Open menu">☰</button>
     </div>
+  </nav>
 
-    <main class="main-content">
-        <div class="page-content">
-            <article class="content-article">
-                <h1>About Ecological Vegetation Classes</h1>
+  <div id="navModal">
+    <div class="nav-modal-content">
+      <button id="navClose" aria-label="Close menu">&times;</button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 
-                <div class="content-section">
-                    <h2>What is an EVC?</h2>
-                    <p>An Ecological Vegetation Class (EVC) is the standard unit for classifying vegetation types in Victoria. EVCs represent the original (pre-1750) vegetation communities that would have naturally occurred across the landscape.</p>
-                    <p>Each EVC is defined by a combination of floristic characteristics, ecological processes, and environmental conditions. This classification system provides a framework for understanding Victoria's ecological heritage and guides conservation and restoration efforts.</p>
-                </div>
+  <section class="hero-small">
+    <div class="container">
+      <div class="eyebrow">About the tool</div>
+      <h1>About Ecological Vegetation Classes.</h1>
+      <p class="hero-body">The classification system, the methodology, and the limits of this tool.</p>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>How This Tool Works</h2>
-                    <p>This tool identifies the EVC classification for a given Victorian address by:</p>
-                    <p>1. Converting the address to geographic coordinates using OpenStreetMap geocoding services</p>
-                    <p>2. Querying Victorian Government spatial datasets via the WFS (Web Feature Service) API</p>
-                    <p>3. Matching the coordinates against pre-1750 vegetation mapping data</p>
-                    <p>4. Displaying the relevant EVC classification, bioregion, and conservation status</p>
-                </div>
+  <section class="section-light">
+    <div class="container">
+      <h2>What is an EVC?</h2>
+      <div class="content-body">
+        <p>An Ecological Vegetation Class (EVC) is the standard unit for classifying vegetation types in Victoria. EVCs represent the original (pre-1750) vegetation communities that would have naturally occurred across the landscape.</p>
+        <p>Each EVC is defined by a combination of floristic characteristics, ecological processes, and environmental conditions. This classification system provides a framework for understanding Victoria's ecological heritage and guides conservation and restoration efforts.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Data Sources and Methodology</h2>
-                    <p>EVC data is sourced from the Victorian Government's open data platform, specifically the NV2005_EVCBCS layer which represents Native Vegetation 2005 Ecological Vegetation Classes with Bioregional Conservation Status.</p>
-                    <p>The tool uses point-in-polygon geographic analysis to determine which EVC boundary contains a given address. When coordinates fall between mapped boundaries—a common occurrence due to the transitional nature of ecological communities—the system identifies the nearest EVC polygon.</p>
-                </div>
+  <section class="section-dark">
+    <div class="container">
+      <h2>How this tool works.</h2>
+      <ol class="step-list">
+        <li>
+          <span class="sn">01</span>
+          <span class="sb">Converting the address to geographic coordinates using OpenStreetMap geocoding services.</span>
+        </li>
+        <li>
+          <span class="sn">02</span>
+          <span class="sb">Querying Victorian Government spatial datasets via the WFS (Web Feature Service) API.</span>
+        </li>
+        <li>
+          <span class="sn">03</span>
+          <span class="sb">Matching the coordinates against pre-1750 vegetation mapping data.</span>
+        </li>
+        <li>
+          <span class="sn">04</span>
+          <span class="sb">Displaying the relevant EVC classification, bioregion, and conservation status.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Understanding Limitations</h2>
-                    <p>This tool provides indicative, identity-level classifications based on modelled pre-1750 vegetation patterns. Results represent broad ecological patterns rather than site-specific assessments.</p>
-                    <p>EVC boundaries represent transition zones between ecological communities. Spatial datasets contain simplified geometries and may include gaps where coordinates do not fall within any mapped polygon. Results may differ from authoritative tools such as Nature Kit, which may use enhanced data or proprietary matching algorithms.</p>
-                    <p>For planning permits, compliance requirements, or detailed ecological assessments, verification with Nature Kit or consultation with qualified ecologists is recommended.</p>
-                </div>
+  <section class="section-light">
+    <div class="container">
+      <h2>Data sources and methodology.</h2>
+      <div class="content-body">
+        <p>EVC data is sourced from the Victorian Government's open data platform, specifically the NV2005_EVCBCS layer which represents Native Vegetation 2005 Ecological Vegetation Classes with Bioregional Conservation Status.</p>
+        <p>The tool uses point-in-polygon geographic analysis to determine which EVC boundary contains a given address. When coordinates fall between mapped boundaries — a common occurrence due to the transitional nature of ecological communities — the system identifies the nearest EVC polygon.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="content-section">
-                    <h2>Conservation Status</h2>
-                    <p>Each EVC is assigned a Bioregional Conservation Status that indicates its level of depletion and vulnerability:</p>
-                    <p><strong>Endangered:</strong> Less than 10% of the pre-1750 extent remains</p>
-                    <p><strong>Vulnerable:</strong> 10-30% of the pre-1750 extent remains</p>
-                    <p><strong>Depleted:</strong> 30-70% of the pre-1750 extent remains</p>
-                    <p><strong>Rare:</strong> Naturally restricted distribution</p>
-                    <p><strong>Least Concern:</strong> More than 70% of the pre-1750 extent remains</p>
-                </div>
+  <section class="section-beige-deep">
+    <div class="container">
+      <h2>Understanding limitations.</h2>
+      <div class="content-body">
+        <p>This tool provides indicative, identity-level classifications based on modelled pre-1750 vegetation patterns. Results represent broad ecological patterns rather than site-specific assessments.</p>
+        <p>EVC boundaries represent transition zones between ecological communities. Spatial datasets contain simplified geometries and may include gaps where coordinates do not fall within any mapped polygon. Results may differ from authoritative tools such as Nature Kit, which may use enhanced data or proprietary matching algorithms.</p>
+        <em class="closing-em">For planning permits, compliance requirements, or detailed ecological assessments, verification with Nature Kit or consultation with qualified ecologists is recommended.</em>
+      </div>
+    </div>
+  </section>
 
-                <div class="cta-box">
-                    <h3>Ready to identify your EVC?</h3>
-                    <p>Enter your Victorian address to discover your local ecological vegetation community.</p>
-                    <a href="/" class="external-link">Search EVC →</a>
-                </div>
-            </article>
+  <section class="section-dark">
+    <div class="container">
+      <h2>Conservation status.</h2>
+      <ul class="data-list">
+        <li>
+          <span class="dt">Endangered</span>
+          <span class="dd">Less than 10% of the pre-1750 extent remains.</span>
+        </li>
+        <li>
+          <span class="dt">Vulnerable</span>
+          <span class="dd">10–30% of the pre-1750 extent remains.</span>
+        </li>
+        <li>
+          <span class="dt">Depleted</span>
+          <span class="dd">30–70% of the pre-1750 extent remains.</span>
+        </li>
+        <li>
+          <span class="dt">Rare</span>
+          <span class="dd">Naturally restricted distribution.</span>
+        </li>
+        <li>
+          <span class="dt">Least Concern</span>
+          <span class="dd">More than 70% of the pre-1750 extent remains.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-cta">
+    <div class="container">
+      <div class="cta-inner">
+        <div>
+          <h2>Ready to identify your EVC?</h2>
+          <p>Enter your Victorian address to discover your local ecological vegetation community.</p>
         </div>
-    </main>
+        <a href="/" class="btn-cta">Search EVC →</a>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="acknowledgement">
-                We acknowledge the Traditional Owners of the lands on which we work and pay our respects to Elders past and present.
-            </div>
-            <div class="footer-links">
-                <a href="/about.html">About</a>
-                <span>·</span>
-                <a href="/contact.html">Contact</a>
-                <span>·</span>
-                <a href="https://www.gardenerandson.com.au" target="_blank" rel="noopener">A Gardener &amp; Son Project</a>
-            </div>
-        </div>
-    </footer>
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-brand">Find My EVC</span>
+      <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="https://www.gardenerandson.com" target="_blank" rel="noopener noreferrer">A Gardener &amp; Son project</a>
+      </div>
+    </div>
+  </footer>
 
-    <script src="assets/app.js"></script>
+</div><!-- /.page -->
+
+<script src="assets/app.js"></script>
 </body>
 </html>

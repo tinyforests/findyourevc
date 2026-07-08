@@ -415,40 +415,16 @@ document.addEventListener('DOMContentLoaded', function() {
             'For planning, compliance, or precise determination, verify via Nature Kit or consult a qualified ecologist.' +
             '</div>' +
             '<div class="result-actions">' +
-            '<a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="btn-verify">' +
-            'Verify with Nature Kit →' +
-            '</a>' +
-            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '&address=' + encodeURIComponent(address) + '&lat=' + (window.currentLat || '') + '&lng=' + (window.currentLon || '') + '&source=findmyevc" target="_blank" rel="noopener" class="btn-secondary-action">' +
+            '<a href="https://www.findmyecologicalgarden.com/?evc=' + evcCode + '&name=' + encodeURIComponent(evcName) + '&address=' + encodeURIComponent(address) + '&lat=' + (window.currentLat || '') + '&lng=' + (window.currentLon || '') + '&source=findmyevc" target="_blank" rel="noopener" class="btn-primary-action">' +
             'View indigenous plant species →' +
             '</a>' +
-            '<button onclick="reportMismatch()" class="btn-report">' +
-            'Report mismatch' +
-            '</button>' +
+            '<a href="https://maps2.biodiversity.vic.gov.au/" target="_blank" rel="noopener" class="btn-secondary-action">' +
+            'Verify with Nature Kit →' +
+            '</a>' +
             '</div>';
 
         showModal(html);
     }
-
-    // Make reportMismatch globally accessible
-    window.reportMismatch = function() {
-        var result = window.currentResult;
-        if (!result) return;
-        
-        var subject = encodeURIComponent('EVC Lookup Mismatch Report');
-        var body = encodeURIComponent(
-            'Address: ' + result.address + '\n' +
-            'Coordinates: ' + result.lat + ', ' + result.lon + '\n' +
-            'Find My EVC Result: EVC ' + result.evc + ' — ' + result.evcName + '\n' +
-            'Bioregion: ' + result.bioregion + '\n' +
-            'Conservation Status: ' + result.status + '\n\n' +
-            'Nature Kit Result (please fill in):\n' +
-            'EVC Code: \n' +
-            'EVC Name: \n\n' +
-            'Additional notes:\n'
-        );
-        
-        window.location.href = 'mailto:hello@gardenerandson.com.au?subject=' + subject + '&body=' + body;
-    };
 
     function showModal(content) {
         if (!resultsModal) return;
