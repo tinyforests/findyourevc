@@ -424,6 +424,58 @@ document.addEventListener('DOMContentLoaded', function() {
             '</div>';
 
         showModal(html);
+        logEVCLookup(address, window.currentLat, window.currentLon, evcCode, evcName);
+    }
+
+    function logEVCLookup(address, lat, lon, evcCode, evcName) {
+        var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScmuvklj5OJq7tJLLS2TCR8fRYoOh96WA_63a9YsGOsznLgdQ/formResponse';
+        var ENTRY_IDS = {
+            address:   'entry.124085928',
+            latitude:  'entry.537784608',
+            longitude: 'entry.683705898',
+            evcCode:   'entry.1602420653',
+            evcName:   'entry.615207214',
+            source:    'entry.200268520'
+        };
+
+        try {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = FORM_URL;
+            form.target = 'log-iframe';
+            form.style.display = 'none';
+
+            var fields = {};
+            fields[ENTRY_IDS.address]   = address || 'Unknown';
+            fields[ENTRY_IDS.latitude]  = lat ? lat.toFixed(6) : '';
+            fields[ENTRY_IDS.longitude] = lon ? lon.toFixed(6) : '';
+            fields[ENTRY_IDS.evcCode]   = evcCode || '';
+            fields[ENTRY_IDS.evcName]   = evcName || '';
+            fields[ENTRY_IDS.source]    = 'findmyevc';
+
+            Object.keys(fields).forEach(function(key) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            });
+
+            var iframe = document.getElementById('log-iframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'log-iframe';
+                iframe.name = 'log-iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            setTimeout(function() { document.body.removeChild(form); }, 1000);
+        } catch (e) {
+            // non-blocking
+        }
     }
 
     function showModal(content) {
