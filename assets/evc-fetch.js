@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showModal('<div class="loading-spinner"></div>');
 
-        var d = 0.02;
+        var d = 0.05;
         var bbox = [
             lon - d,
             lat - d,
@@ -326,39 +326,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // If no exact match, find closest polygon
+                // If no exact match, use most frequent EVC among returned features
                 if (!matchedFeature) {
-                    console.log('⚠ No exact match found - finding closest polygon');
-                    var closestDist = Infinity;
-                    var closestFeature = null;
-
+                    console.log('⚠ No exact match found - using most frequent EVC (urban gap fallback)');
+                    var evcCounts = {};
+                    var evcFeatures = {};
                     for (var i = 0; i < data.features.length; i++) {
                         var f = data.features[i];
-                        try {
-                            var featureGeom = f.geometry.type === 'Polygon' ? 
-                                turf.polygon(f.geometry.coordinates) : 
-                                turf.multiPolygon(f.geometry.coordinates);
-                            var dist = turf.distance(point, turf.centroid(featureGeom));
-                            
-                            console.log('  Feature ' + i + ' (' + f.properties.x_evcname + ' EVC ' + f.properties.evc + '): distance = ' + dist.toFixed(3) + ' km');
-                            
-                            if (dist < closestDist) {
-                                closestDist = dist;
-                                closestFeature = f;
-                            }
-                        } catch (e) {
-                            console.log('  Error calculating distance for feature', i, ':', e.message);
-                        }
+                        var code = f.properties.evc;
+                        evcCounts[code] = (evcCounts[code] || 0) + 1;
+                        if (!evcFeatures[code]) evcFeatures[code] = f;
                     }
-
-                    if (closestFeature) {
-                        console.log('→ CLOSEST FEATURE (distance: ' + closestDist.toFixed(3) + ' km):', 
-                            closestFeature.properties.x_evcname, 'EVC', closestFeature.properties.evc);
-                        matchedFeature = closestFeature;
-                    } else {
-                        console.log('→ Fallback to first feature');
-                        matchedFeature = data.features[0];
-                    }
+                    var topCode = null;
+                    var topCount = 0;
+                    Object.keys(evcCounts).forEach(function(code) {
+                        console.log('  EVC ' + code + ' (' + (evcFeatures[code].properties.x_evcname || '') + '): ' + evcCounts[code] + ' features');
+                        if (evcCounts[code] > topCount) { topCount = evcCounts[code]; topCode = code; }
+                    });
+                    matchedFeature = evcFeatures[topCode] || data.features[0];
+                    console.log('→ MAJORITY EVC: ' + topCode + ' (' + (matchedFeature.properties.x_evcname || '') + ') with ' + topCount + ' features');
                 }
 
                 displayResults(matchedFeature, address);
