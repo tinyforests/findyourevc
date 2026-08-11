@@ -326,25 +326,45 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // If no exact match, use most frequent EVC among returned features
+                // If no exact match, majority EVC by count then nearest centroid of that EVC
                 if (!matchedFeature) {
-                    console.log('⚠ No exact match found - using most frequent EVC (urban gap fallback)');
+                    console.log('⚠ No exact match found - majority EVC + nearest centroid fallback');
                     var evcCounts = {};
-                    var evcFeatures = {};
+                    var evcGroups = {};
                     for (var i = 0; i < data.features.length; i++) {
                         var f = data.features[i];
                         var code = f.properties.evc;
                         evcCounts[code] = (evcCounts[code] || 0) + 1;
-                        if (!evcFeatures[code]) evcFeatures[code] = f;
+                        if (!evcGroups[code]) evcGroups[code] = [];
+                        evcGroups[code].push(f);
                     }
                     var topCode = null;
                     var topCount = 0;
                     Object.keys(evcCounts).forEach(function(code) {
-                        console.log('  EVC ' + code + ' (' + (evcFeatures[code].properties.x_evcname || '') + '): ' + evcCounts[code] + ' features');
                         if (evcCounts[code] > topCount) { topCount = evcCounts[code]; topCode = code; }
                     });
-                    matchedFeature = evcFeatures[topCode] || data.features[0];
-                    console.log('→ MAJORITY EVC: ' + topCode + ' (' + (matchedFeature.properties.x_evcname || '') + ') with ' + topCount + ' features');
+                    console.log('→ MAJORITY EVC: ' + topCode + ' with ' + topCount + ' features');
+                    // Among majority-EVC features, pick nearest centroid to the search point
+                    var group = evcGroups[topCode] || data.features;
+                    var bestDist = Infinity;
+                    for (var i = 0; i < group.length; i++) {
+                        var f = group[i];
+                        try {
+                            var pts = [];
+                            var g = f.geometry;
+                            if (g.type === 'MultiPolygon') {
+                                g.coordinates.forEach(function(poly) { poly.forEach(function(ring) { pts = pts.concat(ring); }); });
+                            } else {
+                                g.coordinates.forEach(function(ring) { pts = pts.concat(ring); });
+                            }
+                            var cx = pts.reduce(function(s,p){ return s+p[0]; }, 0) / pts.length;
+                            var cy = pts.reduce(function(s,p){ return s+p[1]; }, 0) / pts.length;
+                            var dist = Math.sqrt(Math.pow(cx - lon, 2) + Math.pow(cy - lat, 2));
+                            if (dist < bestDist) { bestDist = dist; matchedFeature = f; }
+                        } catch (e) {}
+                    }
+                    matchedFeature = matchedFeature || group[0] || data.features[0];
+                    console.log('→ NEAREST of majority EVC: bioregion=' + matchedFeature.properties.bioregion);
                 }
 
                 displayResults(matchedFeature, address);
