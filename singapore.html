@@ -48,57 +48,12 @@ footer{padding:30px 0 50px;display:flex;justify-content:space-between;gap:20px;f
 @media(max-width:850px){.hero-grid,.workspace,.callout .wrap,.species-head{grid-template-columns:1fr}.hero p{margin:28px 0 0}.map-side{padding-right:0;border-right:0;border-bottom:1px solid var(--line)}.result-side{padding:28px 0}.species-grid{grid-template-columns:repeat(2,1fr)}.method-grid{grid-template-columns:1fr}.method-card+.method-card{border-left:0;border-top:1px solid rgba(48,56,44,.25);padding-left:0}.callout .wrap{gap:18px}}
 @media(max-width:560px){.wrap{width:min(100% - 24px,1180px)}.hero{padding:45px 0}.search-row{grid-template-columns:1fr}.search-row input{border-right:1px solid rgba(255,240,220,.42);border-bottom:0}.go{height:48px}.species-grid{grid-template-columns:1fr}.tabs{align-items:flex-start;flex-direction:column}.section-head{display:block}.section-head p{margin-top:12px}footer{display:block}footer div+div{margin-top:10px}}
 
-/* Opening explainer — FMEVC-style */
-body.modal-open{overflow:hidden}
-.intro-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(24,29,22,.76);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);transition:opacity .22s ease,visibility .22s ease}
-.intro-modal[hidden]{display:none}
-.intro-panel{width:min(760px,100%);background:var(--cream);color:var(--green);border:1px solid rgba(255,240,220,.34);padding:42px 44px 38px;position:relative}
-.intro-top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:34px}
-.intro-mark{font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.16em;font-size:9px;color:var(--muted)}
-.intro-prototype{font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.12em;font-size:8px;border:1px solid var(--line);padding:7px 9px;white-space:nowrap}
-.intro-panel h2{font-family:"Libre Caslon Display",Georgia,serif;font-size:clamp(43px,7vw,70px);line-height:.94;letter-spacing:-.025em;font-weight:400;margin:0 0 18px;max-width:620px}
-.intro-lead{font-size:16px;line-height:1.58;max-width:610px;margin:0;color:#52584d;font-weight:300}
-.intro-flow{display:grid;grid-template-columns:repeat(3,1fr);margin:34px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.intro-step{padding:18px 18px 19px 0;min-height:108px}
-.intro-step+.intro-step{border-left:1px solid var(--line);padding-left:18px}
-.intro-step b{display:block;font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:400}
-.intro-step strong{display:block;font-family:"Libre Caslon Display",Georgia,serif;font-size:22px;line-height:1.05;font-weight:400;margin-bottom:6px}
-.intro-step span{font-size:11px;line-height:1.45;color:#676b62}
-.intro-actions{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
-.intro-primary,.intro-secondary{min-height:49px;padding:0 18px;border:1px solid var(--green);font-size:12px;font-weight:600}
-.intro-primary{background:var(--green);color:var(--cream);flex:1 1 230px}
-.intro-secondary{background:transparent;color:var(--green);flex:1 1 180px}
-.intro-note{font-family:"DM Mono",monospace;font-size:8px;line-height:1.5;color:var(--muted);margin-top:17px;letter-spacing:.02em}
 .search-nudge{display:flex;align-items:center;gap:10px;margin-bottom:13px;font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.05em;color:rgba(255,240,220,.78)}
 .search-nudge span{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;border:1px solid rgba(255,240,220,.35);font-size:8px}
-.search-band.attention{animation:searchPulse 1.2s ease both}
-@keyframes searchPulse{0%,100%{box-shadow:none}35%{box-shadow:inset 0 0 0 2px rgba(255,240,220,.34)}}
-@media(max-width:650px){.intro-panel{padding:28px 24px 25px}.intro-top{margin-bottom:25px}.intro-flow{grid-template-columns:1fr}.intro-step{min-height:0;padding:14px 0}.intro-step+.intro-step{border-left:0;border-top:1px solid var(--line);padding-left:0}.intro-actions{display:grid;grid-template-columns:1fr}.intro-primary,.intro-secondary{width:100%}.intro-prototype{display:none}}
 
 </style>
 </head>
-<body class="modal-open">
-
-<div class="intro-modal" id="introModal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
-  <div class="intro-panel">
-    <div class="intro-top">
-      <div class="intro-mark">Gardener &amp; Son · Singapore study</div>
-      <div class="intro-prototype">Ecological prototype · 2026</div>
-    </div>
-    <h2 id="introTitle">What belonged here before the city?</h2>
-    <p class="intro-lead">Choose a place in Singapore and read it through time — its likely <strong>original vegetation</strong>, what covers it <strong>today</strong>, and the ecological function that could be supported again.</p>
-    <div class="intro-flow" aria-label="How the prototype works">
-      <div class="intro-step"><b>01 · Original</b><strong>What was here?</strong><span>Read the reconstructed vegetation system beneath the place.</span></div>
-      <div class="intro-step"><b>02 · Present</b><strong>What is there now?</strong><span>Compare it with Singapore's published 2018 land-cover context.</span></div>
-      <div class="intro-step"><b>03 · Opportunity</b><strong>What could return?</strong><span>Translate the gap into ecological structure and function.</span></div>
-    </div>
-    <div class="intro-actions">
-      <button class="intro-primary" id="introExplore" type="button">Explore a place →</button>
-      <button class="intro-secondary" id="introDemo" type="button">Show me an example · Dempsey Hill</button>
-    </div>
-    <div class="intro-note">Demonstration only · map readings are indicative, not parcel-accurate ecological classifications.</div>
-  </div>
-</div>
+<body>
 
 <header><div class="wrap nav"><div class="brand">Gardener &amp; Son<small>Ecological design studio · Melbourne / Singapore study</small></div><div class="pill">Prototype · 20 Aug 2026</div></div></header>
 <section class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">Find My Vegetation · Singapore</div><h1>What belonged here before the city?</h1></div><p>Start with a place. Read its <strong>original vegetation</strong>, compare it with <strong>present land cover</strong>, then ask what ecological function could return.</p></div></section>
@@ -130,31 +85,6 @@ body.modal-open{overflow:hidden}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
-const introModal=document.getElementById('introModal');
-const introExplore=document.getElementById('introExplore');
-const introDemo=document.getElementById('introDemo');
-const searchBand=document.getElementById('searchBand');
-function closeIntro(focusSearch=true){
-  if(!introModal)return;
-  introModal.hidden=true;
-  document.body.classList.remove('modal-open');
-  if(searchBand){
-    searchBand.classList.remove('attention');
-    void searchBand.offsetWidth;
-    searchBand.classList.add('attention');
-    searchBand.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  if(focusSearch)setTimeout(()=>document.getElementById('placeSearch')?.focus(),280);
-  setTimeout(()=>map?.invalidateSize(),120);
-}
-introExplore?.addEventListener('click',()=>closeIntro(true));
-introDemo?.addEventListener('click',()=>{
-  closeIntro(false);
-  const demo=document.querySelector('.example[data-name="Dempsey Hill"]');
-  setTimeout(()=>demo?.click(),260);
-});
-introModal?.addEventListener('click',e=>{if(e.target===introModal)closeIntro(true)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&introModal&&!introModal.hidden)closeIntro(true)});
 
 const GEO={west:103.600,east:104.105,north:1.485,south:1.125};
 const historicImg=document.getElementById('historicMap'), currentImg=document.getElementById('currentMap');
